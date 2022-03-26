@@ -21,19 +21,22 @@ int main() {
     Mat kernel_open = getStructuringElement(MORPH_RECT, Size(3, 3), Point(-1, -1));
     Mat kernel_dilate = getStructuringElement(MORPH_RECT, Size(5, 5), Point(-1, -1));
     VideoCapture cap(0);
-    cap.set(CAP_PROP_FRAME_WIDTH, 640);
-    cap.set(CAP_PROP_FRAME_HEIGHT, 480);
+    cap.set(CAP_PROP_FRAME_WIDTH, 640);     // You can adjust this value to adapt your frame width.
+    cap.set(CAP_PROP_FRAME_HEIGHT, 480);    // You can adjust this value to adapt your frame height.
+    // Note that, usually, the frame height and width you set will decide the frame rates of the camera when recording.
     while (true) {
         if (!cap.read(srcFrame)) {
-            cout << "捕获失败" << endl;
+            cout << "Capture failed!" << endl;
             break;
         }
         blur(srcFrame, dstFrame, Size(3, 3));
         cvtColor(dstFrame, dstFrame, COLOR_BGR2HSV);
+        // Here below, if you redesign the marker, especially the color of the circles, you'll need to adjust the HSV range in the Scalar().
         inRange(dstFrame, Scalar(0, 127, 0), Scalar(10, 255, 255), mask1);
         inRange(dstFrame, Scalar(156, 43, 46), Scalar(180, 255, 255), mask2);
-        mask = mask1 + mask2;
-        imshow("Mask", mask);	//TEST
+        // Here above, if you redesign the marker, especially the color of the circles, you'll need to adjust the HSV range in the Scalar().
+        mask = mask1 + mask2;   //Here, if you have only one HSV filter range utilized above, this line of codes will be needless.
+        imshow("Mask", mask);
         proc(mask, ROI[0], ROI[1], ROI[2], ROI[3]);
         Rect *ROI_whole = new Rect[4];
         Rect *ROI_temp = new Rect[4];
@@ -125,7 +128,7 @@ void proc(Mat &binary, Rect &rect1, Rect &rect2, Rect &rect3, Rect &rect4) {
         double *area = new double[contours.size()];
         for (size_t t = 0; t < contours.size(); t++)
             area[t] = contourArea(contours[static_cast<int>(t)]);
-        sort(area, area + contours.size()); //对轮廓面积进行升序排序
+        sort(area, area + contours.size()); 
         for (size_t t = 0; t < contours.size(); t++) {
             if (contourArea(contours[static_cast<int>(t)]) == area[contours.size() - 1])
                 rect1 = boundingRect(contours[static_cast<int>(t)]);

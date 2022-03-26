@@ -98,16 +98,16 @@ int main() {
             circle(srcFrame, pt, 1, Scalar(0, 255, 0), -1);
         }
         vector<Point2f> realplane{Point2f(6.6, 5.9), Point2f(18.3, 5.9), Point2f(6.6, 13.2), Point2f(18.3, 13.2)};
-        Mat homoMat; //Homo Matrix
+        Mat homoMat;    // Homo Matrix
         homoMat = findHomography(imgplane, realplane);
-        cout << homoMat << endl << endl; // 测试错误
+        cout << homoMat << endl << endl;    // Here's where the 3x3 homography matrix is printed in real time.
         Mat centerVect = (Mat_<double>(3, 1) << center_cur.x, center_cur.y, 1);
         Mat centerVectTarget_cur =  homoMat * centerVect;
         if (centerVectTarget_pre.at<double>(0, 0) != 0 && centerVectTarget_pre.at<double>(1, 0) != 0) {
             realDist = pow(centerVectTarget_cur.at<double>(0, 0) - centerVectTarget_pre.at<double>(0, 0), 2);
             realDist += pow(centerVectTarget_cur.at<double>(1, 0) - centerVectTarget_pre.at<double>(1, 0), 2);
             realDist = sqrt(realDist);
-            cout << "Real-world Distance: " << realDist << " cm" << endl;
+            cout << "Real-world Distance: " << realDist << " cm" << endl;   // Here's where the real-world movement distance is printed in real time. 
         }
         centerVectTarget_pre = centerVectTarget_cur;
         center_pre.x = center_cur.x;

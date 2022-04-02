@@ -20,7 +20,8 @@ int main() {
     Mat srcFrame, dstFrame, mask, mask1, mask2;
     Mat kernel_open = getStructuringElement(MORPH_RECT, Size(3, 3), Point(-1, -1));
     Mat kernel_dilate = getStructuringElement(MORPH_RECT, Size(5, 5), Point(-1, -1));
-    VideoCapture cap(0);
+    VideoCapture cap(0);    // Normally, when using default built-in camera of your device, the parameter '0' should have no need to be changed.
+    // Here above, if you're using an external camera, make sure you know the exact port number to which the camera is attached, and replace the parameter here with the correct one!
     cap.set(CAP_PROP_FRAME_WIDTH, 640);     // You can adjust this value to adapt your frame width.
     cap.set(CAP_PROP_FRAME_HEIGHT, 480);    // You can adjust this value to adapt your frame height.
     // Note that, usually, the frame height and width you set will decide the frame rates of the camera when recording.

@@ -1,3 +1,4 @@
+/*
 #include <iostream>
 #include <algorithm>
 #include <opencv2/opencv.hpp>
@@ -148,3 +149,4 @@ void proc(Mat &binary, Rect &rect1, Rect &rect2, Rect &rect3, Rect &rect4) {
         rect4.x = rect4.y = rect4.width = rect4.height = 0;
     }
 }
+*/

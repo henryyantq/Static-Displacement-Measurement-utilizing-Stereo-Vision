@@ -3,11 +3,12 @@
 #include <algorithm>
 #include <opencv2/opencv.hpp>
 #include <cmath>
+#define N 8
 
 using namespace std;
 using namespace cv;
 
-Rect* ROI = new Rect[8];
+Rect* ROI = new Rect[N];
 
 void proc(Mat &binary, Rect *rect, int size) {
     vector<vector<Point>> contours;
@@ -44,8 +45,8 @@ void getCenter(Point &center, Rect *rect, int size) {
         center.x += rect[i].x + rect[i].width / 2;
         center.y += rect[i].y + rect[i].height / 2;
     }
-    center.x /= 8;
-    center.y /= 8;
+    center.x /= size;
+    center.y /= size;
 }
 
 void getImgPlaneIndex(Mat &src, Rect *rect, vector<Point2f> &point, int size, String windowName) {
@@ -77,8 +78,8 @@ int main() {
     double wldDist = 0;     // 公制位移
     Mat centerWld_fir = (Mat_<double>(3, 1) << 0, 0, 1);    // 位移始端靶标中心的世界坐标
     Mat centerWld_sec = (Mat_<double>(3, 1) << 0, 0, 1);    // 位移终端靶标中心的世界坐标
-    vector<Point2f> imgPlane(8);    // 图像平面标记点像素坐标
-    vector<Point2f> realPlane(8);   // 实际靶标平面标记点世界坐标
+    vector<Point2f> imgPlane(N);    // 图像平面标记点像素坐标
+    vector<Point2f> realPlane(N);   // 实际靶标平面标记点世界坐标
     Mat src_fir, dst_fir;
     Mat src_sec, dst_sec;
     Mat mask;     // 颜色滤镜
@@ -89,11 +90,11 @@ int main() {
     
     // 对位移始端拍摄的靶标图像进行处理并获得单应矩阵及其逆矩阵
     getColorMask(src_fir, dst_fir, mask);   // 获得颜色滤镜
-    proc(mask, ROI, 8);     // 识别得到8个感兴趣区域
-    getCenter(centerImg_fir, ROI, 8);   // 获得8个感兴趣区域的正中心
+    proc(mask, ROI, N);     // 识别得到8个感兴趣区域
+    getCenter(centerImg_fir, ROI, N);   // 获得8个感兴趣区域的正中心
     circle(src_fir, centerImg_fir, 1, Scalar(255, 0, 0), -1);   // 将正中心点出
-    getImgPlaneIndex(src_fir, ROI, imgPlane, 8, "Initial Location");    // 获得像素坐标
-    getRealPlaneIndex(realPlane, 8);    // 获得世界坐标
+    getImgPlaneIndex(src_fir, ROI, imgPlane, N, "Initial Location");    // 获得像素坐标
+    getRealPlaneIndex(realPlane, N);    // 获得世界坐标
     homoMat = findHomography(realPlane, imgPlane, RANSAC, 5.0);     // 使用RANSAC方法求解最优单应映射
     invertMat = homoMat.inv();      // 求单应映射矩阵的逆
     cout << homoMat << endl << endl;    // 输出计算得到的单应矩阵
@@ -102,8 +103,8 @@ int main() {
     
     // 对位移终端拍摄的靶标图像进行处理并获得单应矩阵及其逆矩阵
     getColorMask(src_sec, dst_sec, mask);
-    proc(mask, ROI, 8);
-    getCenter(centerImg_sec, ROI, 8);
+    proc(mask, ROI, N);
+    getCenter(centerImg_sec, ROI, N);
     circle(src_sec, centerImg_sec, 1, Scalar(255, 0, 0), -1);
     Mat centerImg_sec_in_3V = (Mat_<double>(3, 1) << centerImg_sec.x, centerImg_sec.y, 1);
     centerWld_sec = invertMat * centerImg_sec_in_3V;

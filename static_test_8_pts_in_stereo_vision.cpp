@@ -155,5 +155,5 @@ int main() {
     if (deltaZ < 0)
         wldDist = pow(x1 - x2, 2) + pow(y1 - y2, 2) - pow(deltaZ, 2);
     wldDist = sqrt(fabs(wldDist));
-    cout << "静态位移：" << deltaZ << endl << endl;
+    cout << "静态位移：" << wldDist << "mm" << endl << endl;
 }

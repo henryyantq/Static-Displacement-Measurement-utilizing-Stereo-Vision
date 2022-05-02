@@ -4,7 +4,7 @@
 #include <opencv2/opencv.hpp>
 #include <cmath>
 #define N 1
-#define FOC_IN_PIX 928.334  // iPhone 13 Pro广角摄像头像素级焦距
+#define FOC_IN_PIX 928.334  // iPhone 13 Pro广角摄像头像素级焦距 (1280x960压缩基准）
 
 using namespace std;
 using namespace cv;

@@ -4,7 +4,7 @@
 #include <opencv2/opencv.hpp>
 #include <cmath>
 #define N 1
-#define FOC_IN_PIX 928.334  // iPhone 13 Pro广角摄像头像素级焦距 (1280x960压缩基准）
+#define FOC_IN_PIX 928.334  // iPhone 13 Pro广角摄像头像素级焦距
 
 using namespace std;
 using namespace cv;
@@ -60,11 +60,12 @@ int main() {
     Mat r_src_sec, r_dst_sec;
     Mat l_mask, r_mask;
     double T = 50, f = FOC_IN_PIX;
+    double standard = 55.0;
 
-    l_src_fir = imread("");
-    l_src_sec = imread("");
-    r_src_fir = imread("");
-    r_src_sec = imread("");
+    l_src_fir = imread("D:/【重要】毕业设计！！！/WPS图片批量处理/l1.png");
+    l_src_sec = imread("D:/【重要】毕业设计！！！/WPS图片批量处理/l2.png");
+    r_src_fir = imread("D:/【重要】毕业设计！！！/WPS图片批量处理/r1.png");
+    r_src_sec = imread("D:/【重要】毕业设计！！！/WPS图片批量处理/r2.png");
 
     getColorMask(l_src_fir, l_dst_fir, l_mask);
     getColorMask(r_src_fir, r_dst_fir, r_mask);
@@ -105,4 +106,6 @@ int main() {
     deltaY = y2 - y1;
     wldDist = sqrt(pow(deltaZ, 2) + pow(deltaX, 2) + pow(deltaY, 2));
     cout << "Distance (in mm) : " << wldDist << endl;
+    double err = (wldDist - standard) / standard;
+    cout << "Bias (0 ~ 1) : " << err << endl;
 }

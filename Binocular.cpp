@@ -4,7 +4,7 @@
 #include <opencv2/opencv.hpp>
 #include <cmath>
 #define N 1
-#define FOC_IN_PIX 928.334  // focal in px (use your own, can be retrieved by using the)
+#define FOC_IN_PIX 928.334  // focal in px (use your own, can be retrieved by running the 'calib_for_focal_in_stereo.cpp')
 
 using namespace std;
 using namespace cv;

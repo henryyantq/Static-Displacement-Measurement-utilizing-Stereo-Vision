@@ -94,10 +94,10 @@ int main() {
     Mat l_homoMat, l_invertMat, r_homoMat, r_invertMat;
     double T = 50, f = FOC_IN_PIX, deltaZ;
     
-    l_src_fir = imread("/Users/chenxuan/Desktop/毕业设计/test samples/l1.jpeg");
-    l_src_sec = imread("/Users/chenxuan/Desktop/毕业设计/test samples/l2.jpeg");
-    r_src_fir = imread("/Users/chenxuan/Desktop/毕业设计/test samples/r1.jpeg");
-    r_src_sec = imread("/Users/chenxuan/Desktop/毕业设计/test samples/r2.jpeg");
+    l_src_fir = imread("/Users/chenxuan/Desktop/毕业设计/l0.jpeg");
+    l_src_sec = imread("/Users/chenxuan/Desktop/毕业设计/l49.jpeg");
+    r_src_fir = imread("/Users/chenxuan/Desktop/毕业设计/r0.jpeg");
+    r_src_sec = imread("/Users/chenxuan/Desktop/毕业设计/r49.jpeg");
     
     getColorMask(l_src_fir, l_dst_fir, l_mask);
     getColorMask(r_src_fir, r_dst_fir, r_mask);
@@ -135,13 +135,9 @@ int main() {
     
     double z_fir, z_sec;
     double d_fir, d_sec;
-    double d_fir_x = pow(l_centerImg_fir.x - r_centerImg_fir.x, 2);
-    double d_fir_y = pow(l_centerImg_fir.y - r_centerImg_fir.y, 2);
-    d_fir = sqrt(d_fir_x + d_fir_y);
+    d_fir = l_centerImg_fir.x - r_centerImg_fir.x;
     z_fir = f * T / d_fir;
-    double d_sec_x = pow(l_centerImg_sec.x - r_centerImg_sec.x, 2);
-    double d_sec_y = pow(l_centerImg_sec.y - r_centerImg_sec.y, 2);
-    d_sec = sqrt(d_sec_x + d_sec_y);
+    d_sec = l_centerImg_sec.x - r_centerImg_sec.x;
     z_sec = f * T / d_sec;
     deltaZ = z_sec - z_fir;
     cout << "深度距离：" << deltaZ << endl << endl;
